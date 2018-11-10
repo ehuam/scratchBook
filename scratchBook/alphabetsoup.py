@@ -7,30 +7,22 @@ def AlphabetSoup(str):
     # Assume numbers and punctuation symbols will not be included in the string.
     
     # make a dictionary to have value keyword relationship.
-    index_of_a = ord('a')
-    abc_list = []
-    
-    for alphabet in range(0,26):
-        abc_list.append(chr(index_of_a + alphabet))
-    
-    abc_dictionary = {}
-    
-    for letter in abc_list:
-        abc_dictionary[letter] = ord(letter)-index_of_a
-    
+
+    # solve by taking the str and creating a dictionary than sorting based on value of the keyword.
+    # keyword is the letter, value is the ord(letter)
+
     str_list = list(str)
-    working_list = copy.deepcopy(str_list)
+
+    str_dictionary = {}
+    for letter in str_list:
+        str_dictionary[letter] = ord(letter)
     
-    index = 0
-    for letter in working_list:
-        if abc_dictionary[letter] >= abc_dictionary[working_list[index]]:
-            temp = working_list.pop(letter)
-            working_list.append(temp)
-        else:
-            pass
-        index += 1
-    # code goes here 
-    return "".join(working_list)
+    # sorted_list = sorted(str_dictionary.items())
+
+    for value in str_dictionary.values():
+        
+
+    return str
 
 def raw_input():
     return input("Enter the argument")
