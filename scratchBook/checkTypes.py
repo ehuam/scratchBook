@@ -1,40 +1,38 @@
-messy_list = ["a", 2, 3, 1, False, [1, 2, 3,'a','b']]
+messy_list = ["a", 2, 3, 1, False, [1, 2, 3]]
 
 # Your code goes below here
 cargo = messy_list.pop(messy_list.index(1))
 messy_list.insert(0, cargo)
 
-counter = 0
-for i in range(len(messy_list)):
-    try:
-        if isinstance(messy_list[i], list):
-            print(messy_list[i], 'is being evaluated for being a list')
-            print('found a list, its length is,', len(messy_list[i]), "it's index is ", i)
-            
-            for j in range(0,len(messy_list[i])):
-                # print(messy_list[counter][j])
-                try:
-                    if isinstance(messy_list[i][j], list):
-                        print(messy_list[i][j], 'is being evaluated for being a list')
-                    elif isinstance(messy_list[i][counter], bool):
-                        print(messy_list[i][j], "is being evaluated for being a bool")
-                    elif isinstance(messy_list[i][j], int):
-                        print(messy_list[i][j], "is being evalauted for being an integer")                
-                    else:
-                        del messy_list[i][j]
-                        print(messy_list[i][j], "has been removed for not being an integer")
-                except IndexError as e:
-                    print(e, "index error was handled, your loop continues")
-                    continue
-        elif isinstance(messy_list[i], bool):
-            print(messy_list[i], "is being evaluated for being a bool which is a subclass of int")
-            del messy_list[i]
-        elif isinstance(messy_list[i], int):
-            print(messy_list[i], 'has been evaluated as being an integer')
-            pass
-        else:
-            print(messy_list[i], 'has been removed for not being an integer')
-            del messy_list[i]
-    except IndexError as e:
-        print(e, "index error was handled, your loop continues")
+trash = []
+for i in messy_list:
+    print(type(i))
+    # This is the code to loop through a list within a list. it has only been tested with one nested loop.
+    if isinstance(i, bool):
+        trash.append(i)
+    elif isinstance(i, list):
+        temp = []
+        for j in i:
+            if isinstance(j, bool):
+                print("i am am in the second loop, i am adding", j, "to list")
+                temp.append(j)
+            elif not isinstance(j, int):
+                print('i am in the second loop, i am adding', j, 'to list')
+                temp.append(j)
+            else:
+                print("i am not adding", j)
+                pass
+        print(temp)
+        # print(i)
+        for k in temp:
+            print("im in the second loop, the value of k is", k)
+            i.remove(k)
+        print(i)
+        # print(temp)
+    elif not isinstance(i, int):
+        trash.append(i)
+for l in trash:
+    print("i finished going through the loop and inner loop, i am now removing", l)
+    messy_list.remove(l)
+# print(trash)
 print(messy_list)
