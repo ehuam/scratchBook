@@ -8,7 +8,7 @@
 # Output:
 # [(1, 'a'), (2, 'b'), (3, 'c')]
 
-def combo(base, *args):
+def two_tuples(base, *args):
     for i in base:
         pass
         for arg in args:
@@ -18,4 +18,10 @@ def combo(base, *args):
                        the value of arg is {} \n \
                        the value of j in {}".format(i,arg,j))
 
-combo([1, 2, 3], 'abc')
+def combo(iter1, iter2):
+    output = []
+    for i in range(0, len(iter1)):
+        output += (iter1[i], iter2[i]),  #note the parenthesis and the comma otherwise a list is returned
+    return output
+
+print(combo([1, 2, 3], 'abc'))
