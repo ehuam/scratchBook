@@ -1,4 +1,4 @@
-import copy
+# import copy
 
 def AlphabetSoup(str): 
     # take the STR string parameter and return the string
@@ -6,23 +6,19 @@ def AlphabetSoup(str):
     # (i.e. helloe becomes ehllo).
     # Assume numbers and punctuation symbols will not be included in the string.
     
-    # make a dictionary to have value keyword relationship.
+    # sort () can be used on list objects. it has two optional parameters, a boolean and a function. 
+    # the boolean REVERSE is to handle descending order. the function KEY serves as the key for the sort
+    # comparison. for example, (key = len) would sort based on the length of the object at that index in the list.
 
-    # solve by taking the str and creating a dictionary than sorting based on value of the keyword.
-    # keyword is the letter, value is the ord(letter)
+    # sorted() does not change the original list. instead it returns a new list.
+    # 
 
-    str_list = list(str)
+    in_str = str
+    str = ''
 
-    str_dictionary = {}
-    for letter in str_list:
-        str_dictionary[letter] = ord(letter)
-    
-    # sorted_list = sorted(str_dictionary.items())
+    temp = sorted(in_str)
+    return ''.join(temp)
 
-    for value in str_dictionary.values():
-        
-
-    return str
 
 def raw_input():
     return input("Enter the argument")
