@@ -10,7 +10,7 @@
 def arithGeo(arr):
 
     """
-    if it follows a geometric pattern
+    if it follows a geometric pattern. Return "Geometric"
         Each term after the first is multiplied by some constant or common ratio
             example [2,6,18,54], 
                     [2,(2x3),(2x3x3), (2x3x3x3)]
@@ -20,26 +20,31 @@ def arithGeo(arr):
                         a*C = b
                         C = b/c
                     the pattern is that after finding the constant, the exponent would increase
+
+    if it follows an arithmetic pattern. Return "Arithmetic"
+        one where the difference between each of the numbers is consistent
+            example [2, 4, 6, 8]
+                    [a+0, a+K, a+K+K, a+k+k]
     """
     # find the constant for geometric
-    k = arr[0]/arr[1]
-    geometric = False
-    index = 0
-    print(arr)
-
+    k = arr[1]/arr[0]
+    geometricArray = []
+    arithmeticArray = []
+    
+    # we prove arr is a geometric by assuming it follows a pattern by creating a geometric pattern using
+    # arr[0] and arr[1]. geometricArray should be equal to arr if true.
     for exponent in range(len(arr)):
-        # print('the value of exponent is' , exponent)
-        print("we are in loop {numberLoop}, the value of exponent is {valExp} \
-                  and index is {index}.".format(numberLoop = exponent, 
-                                                valExp = exponent,
-                                                index = index))
-        
-        if arr[index] == arr[0]*k**(exponent):
-            geometric = True
-        else:
-            geometric = False
-        index += 1
+        geometricArray.append(int((k**exponent)*arr[0]))
 
-    return geometric
+    # print('value of arr is {arr},\
+    #        value of geometric is {geometric}\
+    #        value of arithmetic is {arithmetic}'.format(arr = arr, geometric = geometricArray, arithmetic = arithmeticArray))
+    if geometricArray == arr:
+        return 'Geometric'
+    elif arithmeticArray == arr:
+        return 'Arithmetic'
+    else:
+        return -1
+    # return geometric
 
-print(arithGeo([2, 10, 12, 8, 0]))
+print(arithGeo([2, 4, 6, 8]))
