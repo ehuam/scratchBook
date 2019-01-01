@@ -36,12 +36,34 @@ def arithGeo(arr):
     for exponent in range(len(arr)):
         geometricArray.append(int((k**exponent)*arr[0]))
 
-    # print('value of arr is {arr},\
-    #        value of geometric is {geometric}\
-    #        value of arithmetic is {arithmetic}'.format(arr = arr, geometric = geometricArray, arithmetic = arithmeticArray))
+    # with an arithmetic equation, we have b - a  = difference. summ of the element in arithmethic equation
+    # would be the number of elments times a plus the number of elements times the difference. 
+    # for an arithmetic equation of 3 elements, i.e.:
+    #                                               [2,4,6,8], let a = 2, let b = 4, difference = b-a = 2
+    #                                               sum of the array would be = 20 = 4(a) + 4!*difference
+    difference = arr[1]-arr[0]
+    # for value in range(1, len(arr)+1):
+    #     print(value)
+    sum = 0
+    sum += (len(arr)*arr[0]) - arr[0] # so it doesn't double count arr[0] twice
+    print(sum)
+    
+    for factorial in range(1,len(arr)):
+        sum+= difference**factorial
+
+
+    
+    inputSum = 0
+    for element in arr:
+        inputSum += element
+
+    print('value of arr is {arr},\
+           value of geometric is {geometric}\
+           value of local sum is {created} and input sum {input}\
+           '.format(arr = arr, geometric = geometricArray, created = sum, input = inputSum))
     if geometricArray == arr:
         return 'Geometric'
-    elif arithmeticArray == arr:
+    elif sum == inputSum:
         return 'Arithmetic'
     else:
         return -1
