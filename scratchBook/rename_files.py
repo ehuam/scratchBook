@@ -13,6 +13,6 @@ for filename in os.listdir("."):
     if filename.startswith("."): # so that private files aren't renamed.
         pass
     else:
-        os.replace(filename, (index + '_' + filename)) 
+        os.replace(filename, (str(index) + '_' + filename)) 
         index += 1
     
