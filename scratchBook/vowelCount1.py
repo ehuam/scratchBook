@@ -8,11 +8,11 @@ while True:
         if word.lower() == 'stop':
                 break
         
-        found = {vowel: 0 for vowel in word if vowel in vowels} 
+        found = {vowel: word.count(vowel) for vowel in word if vowel in vowels} 
 
-        for letter in word:
-                if letter in found:
-                        found[letter] += 1
+        # for letter in word:
+        #         if letter in found:
+        #                 found[letter] += 1
 
         # print(len(found))
         if len(found) == 0:
