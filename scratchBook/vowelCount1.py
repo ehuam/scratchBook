@@ -1,11 +1,23 @@
 vowels = ['a','e','i','o','u',]
 
-word = input("Enter a string you want me to check for vowels\n").lower()
+print("Vowel search: Enter 'stop' to break out of the loop")
 
-found = {vowel: 0 for vowel in word if vowel in vowels}
+while True:
+        word = input("Provide your word to search for a vowel\n")
+        
+        if word.lower() == 'stop':
+                break
+        
+        found = {vowel: 0 for vowel in word if vowel in vowels} 
 
-for letter in word:
-    if letter in found:
-        found[letter] += 1
+        for letter in word:
+                if letter in found:
+                        found[letter] += 1
 
-print('I found these vowels in your word:\n', found)
+        # print(len(found))
+        if len(found) == 0:
+                print("I didn't find any vowels")        
+        for i,j in sorted(found.items()):
+                print("{0} was found {1} time(s)".format(i,j))
+                
+        print('-'*6)
