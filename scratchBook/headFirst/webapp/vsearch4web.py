@@ -6,7 +6,7 @@ from vsearch import search4letters
 app = Flask(__name__)
 
 
-@app.route('/hello')
+@app.route('/')
 def hello() -> str:
     return 'Hello world from Flask!'
 
