@@ -19,6 +19,7 @@ def do_search() -> str:
 
 @app.route('/search4_hf')
 def do_search_hf() -> str:
+    # returns a string representation of a set
     return str(search4letters('life, the universe, and everything', 'eiru,!'))
 
 
