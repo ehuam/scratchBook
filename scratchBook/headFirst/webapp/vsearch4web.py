@@ -17,12 +17,13 @@ def do_search_ed() -> str:
     results = ''
     return results.join(search4letters(phrase=phrase, letters=letters))
 
-@app.route('/search4', methods=['POST',])
-def do_search() -> str:
-    # returns a string representation of a set
-    return str(search4letters(request.form['phrase'], request.form['letters'],)
 
-@app.route('/entry')
+@app.route('/search4', methods=['POST'])
+def do_search() -> str:
+    return str(search4letters(request.form['phrase'], request.form['letters']))
+
+
+@app.route('/entry', methods=['GET'])
 def entry_page() -> 'html':
     return render_template('entry.html',
                             the_title='Welcome to search4letters on the web!')
