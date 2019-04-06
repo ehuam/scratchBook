@@ -1,6 +1,6 @@
 
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from vsearch import search4letters
 
 app = Flask(__name__)
@@ -11,16 +11,16 @@ def hello() -> str:
     return 'Hello world from Flask!'
 
 @app.route('/search4_ed')
-def do_search() -> str:
+def do_search_ed() -> str:
     phrase = 'life, the universe, and everything'
     letters = 'eiru,!'
     results = ''
     return results.join(search4letters(phrase=phrase, letters=letters))
 
-@app.route('/search4', methods=['POST'])
-def do_search_hf() -> str:
+@app.route('/search4', methods=['POST',])
+def do_search() -> str:
     # returns a string representation of a set
-    return str(search4letters('life, the universe, and everything', 'eiru,!'))
+    return str(search4letters(request.form['phrase'], request.form['letters'],)
 
 @app.route('/entry')
 def entry_page() -> 'html':
@@ -28,4 +28,4 @@ def entry_page() -> 'html':
                             the_title='Welcome to search4letters on the web!')
 
 
-app.run()
+app.run(debug=True)
