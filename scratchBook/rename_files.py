@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 """"
-code snippet to rewrite files in a directory.
+code snippet to rewrite files in a directory and give them an index number starting at one.
 
 bug: if there are hidden files, the index keeps counting. Fixed
         1/1/19: fixing the bug by only incrementing the index if it's not a hidden file (a file starting with a period)
