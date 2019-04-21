@@ -2,17 +2,42 @@
 
 from flask import Flask, render_template, request, escape 
 from vsearch import search4letters
+import mysql.connector
 
 app = Flask(__name__)
 
 
 def log_request(req: 'flask_request', res: str) -> None:
-    with open('vsearch.log','a') as log:
-        print(req.form,
-              req.remote_addr,
-              req.user_agent,
-              res,
-              file=log, sep='|')
+    #define the connection characteristics
+    dbconfig = { 'host': '127.0.0.1',
+                 'user': 'vsearch',
+                 'password': 'vsearchpasswd',
+                 'database': 'vsearchlogDB',}
+
+    conn = mysql.connector.connect(**dbconfig)
+
+    #create a cursor
+    cursor = conn.cursor()
+
+    # create a string containg the query you want to use
+    _SQL = """insert into log
+               (phrase, letters, ip, browser_string, results)
+               values
+               (%s, %s, %s, %s, %s)"""
+
+    # execute the query
+    # rather than store the entire browser string (stored in req.user_agent)
+    # we only extract the name of the brower with req.user_agent.attribute
+    cursor.execute(_SQL, (req.form['phrase'],
+                          req.form['letters'],
+                          req.remote_addr,
+                          req.user_agent.browser, # only extract the name of the brwoser
+                          res, ))
+
+    # after ensuring the data is saved, tidy up
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 
 @app.route('/search4', methods=['POST'])
