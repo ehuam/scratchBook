@@ -3,13 +3,7 @@
 
 def NumberAddition(str):
     sum = 0
-    temp_list = list()
-
-    for char in str:
-        if char.isdigit():
-            temp_list.append(char)
-        else:
-            temp_list.append('-')
+    temp_list = [char if char.isdigit() else '-' for char in str]
 
     holding_stage = ''.join(temp_list)
     phrase = holding_stage.split('-')
@@ -18,11 +12,11 @@ def NumberAddition(str):
         if char.isdigit():
             sum += int(char)
 
-    # print("debugging:\n\
-    #        temp_list = {}\n\
-    #        holding_stage = {}\n\
-    #        phrase = {}".format(temp_list, holding_stage, phrase))
+    print("debugging:\n\
+           temp_list = {}\n\
+           holding_stage = {}\n\
+           phrase = {}".format(temp_list, holding_stage, phrase))
     return sum
 
 
-print(NumberAddition('75number9'))
+print(NumberAddition('75number50'))
