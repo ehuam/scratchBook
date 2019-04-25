@@ -8,7 +8,10 @@ app = Flask(__name__)
 
 
 def log_request(req: 'flask_request', res: str) -> None:
-    #define the connection characteristics
+    """Log details of the web request and the results."""
+
+    # set up code. Define the connection.
+    # then create a connection and a cursor
     dbconfig = { 'host': '127.0.0.1',
                  'user': 'vsearch',
                  'password': 'vsearchpasswd',
@@ -16,7 +19,7 @@ def log_request(req: 'flask_request', res: str) -> None:
 
     conn = mysql.connector.connect(**dbconfig)
 
-    #create a cursor
+    # create a cursor
     cursor = conn.cursor()
 
     # create a string containg the query you want to use
@@ -31,7 +34,7 @@ def log_request(req: 'flask_request', res: str) -> None:
     cursor.execute(_SQL, (req.form['phrase'],
                           req.form['letters'],
                           req.remote_addr,
-                          req.user_agent.browser, # only extract the name of the brwoser
+                          req.user_agent.browser,  # extract name of browser
                           res, ))
 
     # after ensuring the data is saved, tidy up
