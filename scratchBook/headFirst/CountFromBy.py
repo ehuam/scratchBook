@@ -1,7 +1,7 @@
 class CountFromBy:
-    def __init__(self, val=0, incr=1) ->'object':
-        self.val = val
-        self.incr = incr
+    def __init__(self, v=0: int, incr=1: int) -> None:
+        self.val = v
+        self.incr = i
         
 
     def increase(self) -> None:
