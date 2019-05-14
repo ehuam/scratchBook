@@ -1,11 +1,22 @@
 class CountFromBy:
-    def __init__(self, v=0: int, incr=1: int) -> None:
-        self.val = v
-        self.incr = i
+    def __init__(self, v: int=0, i: int=1) -> None:
+        self.__val = v
+        self.__incr = i
         
-
     def increase(self) -> None:
-        self.val += self.incr
+        self.__val += self.__incr
 
     def __str__(self) -> str:
-        return str(self.val)
+        return str(self.__val)
+
+    @property
+    def val(self):
+        print("Getting Value")
+        return self.__val
+
+    @val.setter
+    def val(self, value:int):
+        if value < 0:
+            raise ValueError("Value must be greater than 0")
+        print("Setting Value")
+        self.__val = value
