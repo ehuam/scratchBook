@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, escape 
 from vsearch import search4letters
+from DBcm import UseDatabase
 import mysql.connector
 
 app = Flask(__name__)
@@ -17,32 +18,22 @@ def log_request(req: 'flask_request', res: str) -> None:
                  'password': 'vsearchpasswd',
                  'database': 'vsearchlogDB',}
 
-    conn = mysql.connector.connect(**dbconfig)
-
-    # create a cursor
-    cursor = conn.cursor()
-
-    # create a string containg the query you want to use
-    _SQL = """insert into log
+    with UseDatabase(dbconfig) as cursor:
+        # create a string containg the query you want to use
+        _SQL = """insert into log
                (phrase, letters, ip, browser_string, results)
                values
                (%s, %s, %s, %s, %s)"""
 
-    # execute the query
-    # rather than store the entire browser string (stored in req.user_agent)
-    # we only extract the name of the brower with req.user_agent.attribute
-    cursor.execute(_SQL, (req.form['phrase'],
+        # execute the query
+        # rather than store the entire browser string (stored in req.user_agent)
+        # we only extract the name of the brower with req.user_agent.attribute
+        cursor.execute(_SQL, (req.form['phrase'],
                           req.form['letters'],
                           req.remote_addr,
                           req.user_agent.browser,  # extract name of browser
                           res, ))
-
-    # after ensuring the data is saved, tidy up
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-
+   
 @app.route('/search4', methods=['POST'])
 def do_search() -> 'html':
     phrase = request.form['phrase']
