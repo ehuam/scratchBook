@@ -4,12 +4,13 @@ import mysql.connector
 class UseDatabase:
     
     def __init__(self, config: dict) -> None:
+        # set up code. Define the connection.
         self.__configuration = config
         
     
     def __enter__(self) -> 'cursor':
         # using the mysql.connector module
-        # we create a connect object and store it in self.conn
+        # then create a connection and a cursor
         self.__conn = mysql.connector.connect(**self.__configuration)
        # create a cursor
         self.__cursor = self.__conn.cursor()
