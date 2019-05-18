@@ -3,16 +3,13 @@
 from flask import Flask, render_template, request, escape 
 from vsearch import search4letters
 from DBcm import UseDatabase
-import mysql.connector
 
 app = Flask(__name__)
 
 
 def log_request(req: 'flask_request', res: str) -> None:
     """Log details of the web request and the results."""
-
-    # set up code. Define the connection.
-    # then create a connection and a cursor
+  
     dbconfig = { 'host': '127.0.0.1',
                  'user': 'vsearch',
                  'password': 'vsearchpasswd',
@@ -24,7 +21,6 @@ def log_request(req: 'flask_request', res: str) -> None:
                (phrase, letters, ip, browser_string, results)
                values
                (%s, %s, %s, %s, %s)"""
-
         # execute the query
         # rather than store the entire browser string (stored in req.user_agent)
         # we only extract the name of the brower with req.user_agent.attribute
@@ -33,7 +29,7 @@ def log_request(req: 'flask_request', res: str) -> None:
                           req.remote_addr,
                           req.user_agent.browser,  # extract name of browser
                           res, ))
-   
+
 @app.route('/search4', methods=['POST'])
 def do_search() -> 'html':
     phrase = request.form['phrase']
