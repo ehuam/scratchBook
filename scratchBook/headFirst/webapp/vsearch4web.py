@@ -5,17 +5,15 @@ from vsearch import search4letters
 from DBcm import UseDatabase
 
 app = Flask(__name__)
+# app.config is a dictionary of variables
+app.config['dbconfig'] = {'host': '127.0.0.1',
+                          'user': 'vsearch',
+                          'password': 'vsearchpasswd',
+                          'database': 'vsearchlogDB',}
 
 
 def log_request(req: 'flask_request', res: str) -> None:
-    """Log details of the web request and the results."""
-  
-    dbconfig = { 'host': '127.0.0.1',
-                 'user': 'vsearch',
-                 'password': 'vsearchpasswd',
-                 'database': 'vsearchlogDB',}
-
-    with UseDatabase(dbconfig) as cursor:
+    with UseDatabase(app.config['dbconfig']) as cursor:
         # create a string containg the query you want to use
         _SQL = """insert into log
                (phrase, letters, ip, browser_string, results)
@@ -25,10 +23,10 @@ def log_request(req: 'flask_request', res: str) -> None:
         # rather than store the entire browser string (stored in req.user_agent)
         # we only extract the name of the brower with req.user_agent.attribute
         cursor.execute(_SQL, (req.form['phrase'],
-                          req.form['letters'],
-                          req.remote_addr,
-                          req.user_agent.browser,  # extract name of browser
-                          res, ))
+                              req.form['letters'],
+                              req.remote_addr,
+                              req.user_agent.browser,  # extract name of browser
+                              res, ))
 
 @app.route('/search4', methods=['POST'])
 def do_search() -> 'html':
@@ -55,7 +53,7 @@ def entry_page() -> 'html':
 @app.route('/viewlog')
 def view_the_log() -> 'html':
     contents = []
-    with open('vsearch.log', mode='r') as log:
+    with UseDatabase(app.config['dbconfig']) as cursor:
         for line in log:
             contents.append([])
             for item in line.split('|'):
