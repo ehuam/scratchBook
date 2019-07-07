@@ -54,8 +54,8 @@ def entry_page() -> 'html':
 def view_the_log() -> 'html':
 
     with UseDatabase(app.config['dbconfig']) as cursor:
-        _SQL = """SELECT phrase, letters, ip, browser_string, results FROM
-                  FROM log"""
+        _SQL = """Select phrase, letters, ip, browser_string, results FROM
+                  log"""
 
         cursor.execute(_SQL)
         contents = cursor.fetchall()
