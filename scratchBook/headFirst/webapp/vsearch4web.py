@@ -52,13 +52,15 @@ def entry_page() -> 'html':
 
 @app.route('/viewlog')
 def view_the_log() -> 'html':
-    contents = []
+
     with UseDatabase(app.config['dbconfig']) as cursor:
-        for line in log:
-            contents.append([])
-            for item in line.split('|'):
-                contents[-1].append(escape(item))
-    titles = ('Form Data', 'Remote_addr', 'User_agent', 'Results')
+        _SQL = """SELECT phrase, letters, ip, browser_string, results FROM
+                  FROM log"""
+
+        cursor.execute(_SQL)
+        contents = cursor.fetchall()
+
+    titles = ('Phrase','Letters', 'Remote_addr', 'User_agent', 'Results')
     return render_template('viewlog.html',
                            the_title='View Log',
                            the_row_titles=titles,
