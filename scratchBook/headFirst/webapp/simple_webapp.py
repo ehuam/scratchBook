@@ -29,9 +29,9 @@ def page3() -> str:
 @app.route('/login')
 def do_login() -> str:
     session['logged_in']  = True
-        return 'You are now logged in.'
+    return 'You are now logged in.'
 
-@app.route('logout')
+@app.route('/logout')
 def do_logout() -> str:
     session.pop('logged_in')
     return 'You are now logged out.'
