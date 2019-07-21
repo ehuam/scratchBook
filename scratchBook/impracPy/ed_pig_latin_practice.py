@@ -1,18 +1,23 @@
 """ doc string """
+import sys
 
 def main():
     """turn a word into its pig latin equivalent"""
+    while True:
 
-    consonants = ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p',
-                  'q', 'r', 's', 't', 'v', 'x', 'z', 'w', 'y']
+        vowels = 'aeiou'
 
-    vowels = 'aeiou' 
+        word = input("Enter a word to pigify:\t")
+        if word[0] in vowels:
+            pig_latin = word + 'way'
+        else:
+            pig_latin = word[1:] + word[0] +'ay'
 
-    word_to_pig = input("Enter a word to pigify")
-    pigged_word = ''
+        print(pig_latin)
 
-    if word_to_pig[0] in consonants:
-        print(pigged_word + word_to_pig[1:] + 'ay' + word_to_pig[1])
+        try_again = input("\n\nTry Again? (Press Enter else n to stop)\n")
+        if try_again.lower() == 'n':
+            sys.exit()
 
 if __name__ == "__main__":
     main()
