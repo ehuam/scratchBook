@@ -1,10 +1,12 @@
 """ simple program to highlight nested functions"""
 
+
 def main():
-    
+    pass
+ 
 def outerInvoke():
-    """Inner function nested inside of Outer.
-       Inner function is fuction is invoked from outer"""
+    """Inner function nested inside of Outer./
+    Inner function is fuction is invoked from outer"""
     def inner():
         print('This is inner.')
     
