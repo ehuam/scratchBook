@@ -1,15 +1,30 @@
 
 
-from flask import Flask, render_template, request, escape 
+from flask import Flask, render_template, request, escape, session
 from vsearch import search4letters
+
 from DBcm import UseDatabase
+from checker import check_logged_in
 
 app = Flask(__name__)
 # app.config is a dictionary of variables
 app.config['dbconfig'] = {'host': '127.0.0.1',
                           'user': 'vsearch',
                           'password': 'vsearchpasswd',
-                          'database': 'vsearchlogDB',}
+                          'database': 'vsearchlogDB', }
+
+app.secret_key = 'YouWillNeverGuessMySecretKey'
+
+@app.route('/login')
+def do_login() -> str:
+    session['logged_in'] = True
+    return 'You are now logged in'
+
+
+@app.route('/logout')
+def do_logout() -> str:
+    session.pop('logged_in')
+    return 'You are now logged out.'
 
 
 def log_request(req: 'flask_request', res: str) -> None:
@@ -20,13 +35,16 @@ def log_request(req: 'flask_request', res: str) -> None:
                values
                (%s, %s, %s, %s, %s)"""
         # execute the query
-        # rather than store the entire browser string (stored in req.user_agent)
-        # we only extract the name of the brower with req.user_agent.attribute
+        # Rather than store the entire browser string
+        # (stored in req.user_agent)
+        # We only extract the name of the brower
+        # with req.user_agent.attribute
         cursor.execute(_SQL, (req.form['phrase'],
                               req.form['letters'],
                               req.remote_addr,
-                              req.user_agent.browser,  # extract name of browser
+                              req.user_agent.browser,
                               res, ))
+
 
 @app.route('/search4', methods=['POST'])
 def do_search() -> 'html':
@@ -49,10 +67,9 @@ def entry_page() -> 'html':
                            the_title='Welcome to search4letters on the web!')
 
 
-
 @app.route('/viewlog')
+@check_logged_in
 def view_the_log() -> 'html':
-
     with UseDatabase(app.config['dbconfig']) as cursor:
         _SQL = """Select phrase, letters, ip, browser_string, results FROM
                   log"""
@@ -60,7 +77,7 @@ def view_the_log() -> 'html':
         cursor.execute(_SQL)
         contents = cursor.fetchall()
 
-    titles = ('Phrase','Letters', 'Remote_addr', 'User_agent', 'Results')
+    titles = ('Phrase', 'Letters', 'Remote_addr', 'User_agent', 'Results')
     return render_template('viewlog.html',
                            the_title='View Log',
                            the_row_titles=titles,
