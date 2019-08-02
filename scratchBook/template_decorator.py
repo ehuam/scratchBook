@@ -1,4 +1,4 @@
-
+"""Templates for future decorators"""
 
 from functools import wraps
 
