@@ -12,6 +12,7 @@ app.config['dbconfig'] = {'host': '127.0.0.1',
                           'user': 'vsearch',
                           'password': 'vsearchpasswd',
                           'database': 'vsearchlogDB', }
+# Debug Questions: what if the database connection fails?
 
 app.secret_key = 'YouWillNeverGuessMySecretKey'
 
@@ -26,6 +27,8 @@ def do_logout() -> str:
     session.pop('logged_in')
     return 'You are now logged out.'
 
+# Debug questions: Are the SQL Statements protected from web-based attacks
+# such as SQL-injection or Cross Site Scripting.
 
 def log_request(req: 'flask_request', res: str) -> None:
     with UseDatabase(app.config['dbconfig']) as cursor:
@@ -44,7 +47,8 @@ def log_request(req: 'flask_request', res: str) -> None:
                               req.remote_addr,
                               req.user_agent.browser,
                               res, ))
-
+        # Debug question: what happens if executing 'cursor.execute'
+        # takes a long time?
 
 @app.route('/search4', methods=['POST'])
 def do_search() -> 'html':
@@ -59,6 +63,7 @@ def do_search() -> 'html':
                            the_title=title,
                            the_results=results,)
 
+    #Debug question: What happens if log_request call fails?
 
 @app.route('/')
 @app.route('/entry', methods=['GET'])
@@ -66,6 +71,8 @@ def entry_page() -> 'html':
     return render_template('entry.html',
                            the_title='Welcome to search4letters on the web!')
 
+    #Debug question: SQL protected from web-based attacks? 
+    # Such as sql injection or Cross site scripting?
 
 @app.route('/viewlog')
 @check_logged_in
