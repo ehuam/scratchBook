@@ -13,6 +13,7 @@ app.config['dbconfig'] = {'host': '127.0.0.1',
                           'password': 'vsearchpasswd',
                           'database': 'vsearchlogDB', }
 # Debug Questions: what if the database connection fails?
+# Database Interface error is raised. 
 
 app.secret_key = 'YouWillNeverGuessMySecretKey'
 
@@ -28,9 +29,10 @@ def do_logout() -> str:
     return 'You are now logged out.'
 
 # Debug questions: Are the SQL Statements protected from web-based attacks
-# such as SQL-injection or Cross Site Scripting.
+# such as SQL-injection or Cross Site Scriptingu. -- Jinja2 guards against this.
 
 def log_request(req: 'flask_request', res: str) -> None:
+    raise Exception('something awful just happened.')
     with UseDatabase(app.config['dbconfig']) as cursor:
         # create a string containg the query you want to use
         _SQL = """insert into log
@@ -56,7 +58,12 @@ def do_search() -> 'html':
     letters = request.form['letters']
     title = 'Hare are your results'
     results = str(search4letters(phrase, letters))
-    log_request(request, results)
+
+    try:
+        log_request(request, results)
+    except Exception as err:
+        print('***** logging failed with {}:.'.format(err))
+
     return render_template('results.html',
                            the_phrase=phrase,
                            the_letters=letters,
@@ -71,25 +78,27 @@ def entry_page() -> 'html':
     return render_template('entry.html',
                            the_title='Welcome to search4letters on the web!')
 
-    #Debug question: SQL protected from web-based attacks? 
+    # Debug question: SQL protected from web-based attacks? 
     # Such as sql injection or Cross site scripting?
 
 @app.route('/viewlog')
 @check_logged_in
 def view_the_log() -> 'html':
-    with UseDatabase(app.config['dbconfig']) as cursor:
-        _SQL = """Select phrase, letters, ip, browser_string, results FROM
-                  log"""
+    try:
+        with UseDatabase(app.config['dbconfig']) as cursor:
+            _SQL = """Select phrase, letters, ip, browser_string, results FROM
+                      log"""
 
-        cursor.execute(_SQL)
-        contents = cursor.fetchall()
+            cursor.execute(_SQL)
+            contents = cursor.fetchall()
 
-    titles = ('Phrase', 'Letters', 'Remote_addr', 'User_agent', 'Results')
-    return render_template('viewlog.html',
-                           the_title='View Log',
-                           the_row_titles=titles,
-                           the_data=contents,)
-
+        titles = ('Phrase', 'Letters', 'Remote_addr', 'User_agent', 'Results')
+        return render_template('viewlog.html',
+                               the_title='View Log',
+                               the_row_titles=titles,
+                               the_data=contents,)
+    except Exception as err:
+        print('Something went wrong:', str(err))
 
 if __name__ == '__main__':
     app.run(debug=True)
