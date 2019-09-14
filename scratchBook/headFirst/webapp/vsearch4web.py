@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, escape, session
 from vsearch import search4letters
+from threading import Thread
 
 from DBcm import UseDatabase, ConnectionError, CredentialsError
 from checker import check_logged_in
