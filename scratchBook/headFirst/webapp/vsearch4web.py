@@ -1,6 +1,5 @@
-
-
-from flask import Flask, render_template, request, escape, session
+import time
+from flask import Flask, render_template, request, escape, session, copy_current_request_context
 from vsearch import search4letters
 from threading import Thread
 
@@ -29,32 +28,29 @@ def do_logout() -> str:
     session.pop('logged_in')
     return 'You are now logged out.'
 
-# Debug questions: Are the SQL Statements protected from web-based attacks
-# such as SQL-injection or Cross Site Scriptingu. -- Jinja2 guards against this.
+@app.route('/search4', methods=['POST'])
+def do_search() -> 'html':
 
-def log_request(req: 'flask_request', res: str) -> None:
-    raise Exception('something awful just happened.')
-    with UseDatabase(app.config['dbconfig']) as cursor:
+    @copy_current_request_context
+    def log_request(req: 'flask_request', res: str) -> None:
+        time.sleep(15) # This makes log_request really slow
+        with UseDatabase(app.config['dbconfig']) as cursor:
         # create a string containg the query you want to use
-        _SQL = """insert into log
-               (phrase, letters, ip, browser_string, results)
-               values
-               (%s, %s, %s, %s, %s)"""
+            _SQL = """insert into log
+                    (phrase, letters, ip, browser_string, results)
+                    values
+                    (%s, %s, %s, %s, %s)"""
         # execute the query
         # Rather than store the entire browser string
         # (stored in req.user_agent)
         # We only extract the name of the brower
         # with req.user_agent.attribute
         cursor.execute(_SQL, (req.form['phrase'],
-                              req.form['letters'],
-                              req.remote_addr,
-                              req.user_agent.browser,
-                              res, ))
-        # Debug question: what happens if executing 'cursor.execute'
-        # takes a long time?
+                        req.form['letters'],
+                        req.remote_addr,
+                        req.user_agent.browser,
+                        res,))
 
-@app.route('/search4', methods=['POST'])
-def do_search() -> 'html':
     phrase = request.form['phrase']
     letters = request.form['letters']
     title = 'Hare are your results'
