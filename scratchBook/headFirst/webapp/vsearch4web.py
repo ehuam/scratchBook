@@ -61,7 +61,8 @@ def do_search() -> 'html':
     results = str(search4letters(phrase, letters))
 
     try:
-        log_request(request, results)
+        t=Thread(target=log_request, args=(request, results)) 
+        t.start()
     except Exception as err:
         print('***** logging failed with {}:.'.format(err))
 
