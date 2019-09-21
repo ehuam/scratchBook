@@ -1,10 +1,13 @@
-import time
-from flask import Flask, render_template, request, escape, session, copy_current_request_context
+from flask import Flask, render_template, request, escape, session
+from flask import copy_current_request_context
 from vsearch import search4letters
-from threading import Thread
 
 from DBcm import UseDatabase, ConnectionError, CredentialsError
 from checker import check_logged_in
+
+from threading import Thread
+from time import sleep
+
 
 app = Flask(__name__)
 # app.config is a dictionary of variables
@@ -33,7 +36,7 @@ def do_search() -> 'html':
 
     @copy_current_request_context
     def log_request(req: 'flask_request', res: str) -> None:
-        time.sleep(15) # This makes log_request really slow
+        sleep(15) # This makes log_request really slow
         with UseDatabase(app.config['dbconfig']) as cursor:
         # create a string containg the query you want to use
             _SQL = """insert into log
@@ -45,7 +48,7 @@ def do_search() -> 'html':
         # (stored in req.user_agent)
         # We only extract the name of the brower
         # with req.user_agent.attribute
-        cursor.execute(_SQL, (req.form['phrase'],
+            cursor.execute(_SQL, (req.form['phrase'],
                         req.form['letters'],
                         req.remote_addr,
                         req.user_agent.browser,
@@ -63,10 +66,10 @@ def do_search() -> 'html':
         print('***** logging failed with {}:.'.format(err))
 
     return render_template('results.html',
-                           the_phrase=phrase,
-                           the_letters=letters,
-                           the_title=title,
-                           the_results=results,)
+                          the_phrase=phrase,
+                          the_title=title,
+                          the_letters=letters,
+                          the_results=results,)
 
     #Debug question: What happens if log_request call fails?
 
