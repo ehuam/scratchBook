@@ -19,4 +19,4 @@ with open('buzzers.csv') as data:
     for time, flight in flights.items():
         flights2[convert2ampm(time)] = flight.title() 
 
-
+    pprint.pprint(flights2)
