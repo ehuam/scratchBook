@@ -24,3 +24,6 @@ with open('buzzers.csv') as data:
     more_flights = {convert2ampm(k):v.title() for k,v in flights.items()}
     print('printing out more_flights')
     pprint.pprint(more_flights)
+
+fts = {convert2ampm (k): v.title() for k,v in flights.items()}
+
