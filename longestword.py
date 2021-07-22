@@ -1,4 +1,4 @@
-#! /usr/loca/bin/python3
+#!/usr/local/bin/python
 
 # code goes here
 # Create a list containing the 26 letters of the alphabet
