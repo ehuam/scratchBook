@@ -4,7 +4,7 @@ import java.lang.StringBuilder;
 class 1544-great_string{
     
     public String makeGood(String s){
-	String[] sarr s.split("");
+	String[] sarr = s.split("");
 	Stack<String> passes = new Stack<String>();
 	StringBuilder temp = new StringBuilder();
 
@@ -37,12 +37,12 @@ class 1544-great_string{
 	    System.out.println(passes);
     }
 }
+}
 
 
-    public static void main(String args[]){
+public static void main(String args[]){
 	String s = "abBAcC";
 	String answer = makeGood(s);
 
 	System.out.println(answer);
-    }
 }
