@@ -110,4 +110,4 @@ venv.bak/
 .DS_Store
 
 # edgar added
-.class
+*.class
