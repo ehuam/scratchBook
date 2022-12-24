@@ -108,3 +108,6 @@ venv.bak/
 
 # macosx files
 .DS_Store
+
+# edgar added
+.class
