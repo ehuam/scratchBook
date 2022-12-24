@@ -54,6 +54,7 @@ public class greatString{
 	    }
 		i++;
 		System.out.println("Stack has : " + passes.toString());
+	    }
 	}
 	    // Debugger
 	    /* 
