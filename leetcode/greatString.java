@@ -68,17 +68,6 @@ public class greatString{
 	    System.out.println("arr[i] = " + sarr[i]);
 	    */
 
-	    if (sarr[i-1].toUpperCase().equals(sarr[i])){
-		
-		if(sarr[i+1].equals(sarr[i])) {
-		    StringBuilder last = new StringBuilder();
-		    for(String f: sarr){
-			last.append(f);
-		    }
-		    passes.push(last.toString() );
-		}
-	    }
-	}
 	System.out.println("s.length = " + s.length());
 	// debugger
 	System.out.println("s = " + s);
