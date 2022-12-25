@@ -31,6 +31,36 @@ public class greatString {
 		return temp.toString();
 	}
 
+    public String makeGoodRecr(String s){
+	StringBuilder t = new StringBuilder();
+	String prev = "";
+
+	StringBuilder result = makeGoodRecr(s, t, prev);
+	
+	return result.toString();
+    }
+
+   public StringBuilder makeGoodRecr(String s, StringBuilder t, String p){
+
+       if(s == null) {return t;}
+	    else{
+		String curr = s.substring(0,1);
+		String nextPass = s.substring(1);
+		String prev = curr;
+		if(curr.toUpperCase().equals(prev) ||
+		   prev.toUpperCase().eqauls(letter)){
+		    
+		    makeRecrv(nextPass, t, prev); 
+		}
+		else{
+		    t.append(curr);
+		    makeGoodRecr(nextPass, t, prev);
+		}
+
+	    }
+    }
+    
+
 	public static void main(String args[]) {
 		String s = "kkdsFuqUfSDKK";
 		greatString result = new greatString();
