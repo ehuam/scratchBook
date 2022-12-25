@@ -13,16 +13,9 @@ public class greatString {
 		for (String letter : sarr){
 			if( !passes.empty() ){
 				String prev = passes.peek();
-				if ( letter.toUpperCase().equals(prev) ||
-				 prev.toUpperCase().equals(letter)){
-					if(!letter.equals(prev))	
-					passes.pop();
-				}
-				passes.push(letter);
-			}
-			else{
-				passes.push(letter);
-			}
+				if( letter.equals(prev)  ){ passes.push(letter);}
+				else if ( letter.equalsIgnoreCase(prev) ){ passes.pop();	}
+			 else{ passes.push(letter); }
 		}
 		for(String letter: passes){
 			temp.append(letter);
