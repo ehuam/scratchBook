@@ -11,16 +11,17 @@ public class greatString {
 		StringBuilder temp = new StringBuilder();
 
 		for (String letter : sarr){
-			if( !passes.empty() ){
-				String prev = passes.peek();
-				if( letter.equals(prev)  ){ passes.push(letter);}
-				else if ( letter.equalsIgnoreCase(prev) ){ passes.pop();	}
-			 else{ passes.push(letter); }
+		    if( !passes.empty() ){
+			String prev = passes.peek();
+			if( letter.equals(prev)  ){ passes.push(letter);}
+			else if ( letter.equalsIgnoreCase(prev) ){ passes.pop();}
+			else{ passes.push(letter); }
+		    }
 		}
 		for(String letter: passes){
 			temp.append(letter);
 		}
-
+		
 		return temp.toString();
 	}
 
@@ -41,15 +42,15 @@ public class greatString {
 		String nextPass = s.substring(1);
 		String prev = curr;
 		if(curr.toUpperCase().equals(prev) ||
-		   prev.toUpperCase().eqauls(letter)){
+		   prev.toUpperCase().equals(curr)){
 		    
-		    makeRecrv(nextPass, t, prev); 
+		    makeGoodRecr(nextPass, t, prev); 
 		}
 		else{
 		    t.append(curr);
 		    makeGoodRecr(nextPass, t, prev);
 		}
-
+		return t;
 	    }
     }
     
@@ -58,6 +59,8 @@ public class greatString {
 		String s = "kkdsFuqUfSDKK";
 		greatString result = new greatString();
 		String answer = result.makeGood(s);
-		System.out.println(answer);
+		String recr_answer = result.makeGoodRecr(s);
+		System.out.println("The answer itr = " + answer);
+		System.out.println("The answer recr = " + recr_answer);
 	}
 }
