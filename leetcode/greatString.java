@@ -17,6 +17,7 @@ public class greatString {
 			else if ( letter.equalsIgnoreCase(prev) ){ passes.pop();}
 			else{ passes.push(letter); }
 		    }
+		    else{ passes.push(letter);}
 		}
 		for(String letter: passes){
 			temp.append(letter);
@@ -34,24 +35,33 @@ public class greatString {
 	return result.toString();
     }
 
-   public StringBuilder makeGoodRecr(String s, StringBuilder t, String p){
+   public StringBuilder makeGoodRecr(String s, StringBuilder t, String prev){
 
-       if(s == null) {return t;}
-	    else{
-		String curr = s.substring(0,1);
-		String nextPass = s.substring(1);
-		String prev = curr;
-		if(curr.toUpperCase().equals(prev) ||
-		   prev.toUpperCase().equals(curr)){
-		    
-		    makeGoodRecr(nextPass, t, prev); 
-		}
-		else{
-		    t.append(curr);
-		    makeGoodRecr(nextPass, t, prev);
-		}
-		return t;
-	    }
+       
+       if( s.equals("") ) {return t;}
+
+       String curr = s.substring(0,1);
+       String nextPass = s.substring(1);
+       
+       if( s.length() ==1 ) {
+	   t.append(curr);
+	   makeGoodRecr(nextPass, t, curr);
+       }
+       else if(curr.equals(prev)){
+	   t.append(curr);
+	   makeGoodRecr(nextPass,t, curr);
+       }
+       else if(curr.equalsIgnoreCase(prev)){
+	   int end = t.length()-1;
+	   t.deleteCharAt(end);
+	   makeGoodRecr(nextPass, t, curr); 
+       }
+       else{
+	   t.append(curr);
+	   makeGoodRecr(nextPass, t, curr);
+       }
+       return t;
+
     }
     
 
@@ -61,6 +71,9 @@ public class greatString {
 		String answer = result.makeGood(s);
 		String recr_answer = result.makeGoodRecr(s);
 		System.out.println("The answer itr = " + answer);
+		/*
+		  Recursive is broke;
 		System.out.println("The answer recr = " + recr_answer);
+		*/
 	}
 }
